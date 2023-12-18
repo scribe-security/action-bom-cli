@@ -145,13 +145,14 @@ inputs:
 runs:
   using: composite
   steps:
-    - shell: bash
+    - name: Install valint
+      shell: bash
       run: |2-
         if [ ! -e "$HOME/.scribe/bin/valint" ]; then
         	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint -D
         fi
-    - shell: bash
-      name: Run valint command
+    - name: Run valint command
+      shell: bash
       id: run_valint
       run: |-
         $HOME/.scribe/bin/valint \

@@ -219,6 +219,9 @@ runs:
         ${{ inputs.structured && '--structured=' }}${{ inputs.structured }} \
         ${{ inputs.timeout && '--timeout=' }}${{ inputs.timeout }} \
         ${{ inputs.verbose && '--verbose=' }}${{ inputs.verbose }}
+
+    - run: echo Hello111 ${{steps.run_valint.outputs.OUTPUT_PATH}}
+      shell: bash
 branding:
   icon: shield
   color: green

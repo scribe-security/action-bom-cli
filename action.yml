@@ -110,6 +110,8 @@ inputs:
     description: Pipeline name
   platform:
     description: Select target platform, examples=windows/armv6, arm64 ..)
+  policy-args:
+    description: Policy arguments
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
@@ -198,6 +200,7 @@ runs:
         ${{ inputs.output-file && '--output-file=' }}${{ inputs.output-file }} \
         ${{ inputs.pipeline-name && '--pipeline-name=' }}${{ inputs.pipeline-name }} \
         ${{ inputs.platform && '--platform=' }}${{ inputs.platform }} \
+        ${{ inputs.policy-args && '--policy-args=' }}${{ inputs.policy-args }} \
         ${{ inputs.predicate-type && '--predicate-type=' }}${{ inputs.predicate-type }} \
         ${{ inputs.product-key && '--product-key=' }}${{ inputs.product-key }} \
         ${{ inputs.product-version && '--product-version=' }}${{ inputs.product-version }} \

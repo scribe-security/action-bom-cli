@@ -2,13 +2,10 @@
 
 set -ex
 
-new_version=$1
-sed -i "s/latest/$new_version/g" action.yml
-git add action.yml
-git commit -m "bump version"
-
-git tag -a $1 -m "bump version $1"
-
-sed -i "s/$new_version/latest/g" action.yml
-git add action.yml
-git commit -m "presist latest"
+version=$1
+git branch -D  prep_release/$version || true
+git checkout -b prep_release/$version
+sed -i "s/\(sh -s -- -t valint\) -D$/\1:$version/" action.yml
+git add action.yml || true
+git commit -m "bump version" || true
+git push -f origin prep_release/$version || true

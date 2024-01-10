@@ -149,7 +149,7 @@ runs:
       shell: bash
       run: |2-
         if [ ! -e "$HOME/.scribe/bin/valint" ]; then
-        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint
+        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint:v1.0.0
         fi
     - name: Run valint command
       shell: bash

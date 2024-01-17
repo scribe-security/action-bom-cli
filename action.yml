@@ -27,8 +27,6 @@ inputs:
     description: Set author phone
   components:
     description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
-  compress:
-    description: Compress content (generic evidence)
   force:
     description: Force overwrite cache
   format:
@@ -110,6 +108,8 @@ inputs:
     description: Pipeline name
   platform:
     description: Select target platform, examples=windows/armv6, arm64 ..)
+  policy-args:
+    description: Policy arguments
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
@@ -156,7 +156,6 @@ runs:
         ${{ inputs.author-name && '--author-name=' }}${{ inputs.author-name }} \
         ${{ inputs.author-phone && '--author-phone=' }}${{ inputs.author-phone }} \
         ${{ inputs.components && '--components=' }}${{ inputs.components }} \
-        ${{ inputs.compress && '--compress=' }}${{ inputs.compress }} \
         ${{ inputs.force && '--force=' }}${{ inputs.force }} \
         ${{ inputs.format && '--format=' }}${{ inputs.format }} \
         ${{ inputs.package-exclude-type && '--package-exclude-type=' }}${{ inputs.package-exclude-type }} \
@@ -198,6 +197,7 @@ runs:
         ${{ inputs.output-file && '--output-file=' }}${{ inputs.output-file }} \
         ${{ inputs.pipeline-name && '--pipeline-name=' }}${{ inputs.pipeline-name }} \
         ${{ inputs.platform && '--platform=' }}${{ inputs.platform }} \
+        ${{ inputs.policy-args && '--policy-args=' }}${{ inputs.policy-args }} \
         ${{ inputs.predicate-type && '--predicate-type=' }}${{ inputs.predicate-type }} \
         ${{ inputs.product-key && '--product-key=' }}${{ inputs.product-key }} \
         ${{ inputs.product-version && '--product-version=' }}${{ inputs.product-version }} \

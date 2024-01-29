@@ -1,16 +1,10 @@
-name: Scribe evidence generator
+name: Scribe SBOM evidence generator
 description: Collect, Create and Store evidence for artifacts (SBOMs,SLSA provenance) or any third-party tools.
 author: Mikey Strauss
 outputs:
   OUTPUT_PATH:
     description: evidence output file path
     value: ${{ steps.run_valint.outputs.OUTPUT_PATH }}
-  slsa_path:
-    description: slsa evidence output file path
-    value: ${{ steps.run_valint.outputs.slsa_path }}
-  sbom_path:
-    description: sbom evidence output file path
-    value: ${{ steps.run_valint.outputs.sbom_path }}
 inputs:
   target:
     description: Target object name format=[<image:tag>, <dir path>, <git url>]
@@ -33,8 +27,6 @@ inputs:
     description: Set author phone
   components:
     description: Select sbom components groups, options=[metadata layers packages syft files dep commits]
-  compress:
-    description: Compress content (generic evidence)
   force:
     description: Force overwrite cache
   format:
@@ -82,7 +74,7 @@ inputs:
   disable-crl:
     description: Disable certificate revocation verificatoin
   env:
-    description: Environment keys to include in sbom
+    description: Environment keys to include in evidence
   filter-regex:
     description: Filter out files by regex
   filter-scope:
@@ -116,14 +108,14 @@ inputs:
     description: Pipeline name
   platform:
     description: Select target platform, examples=windows/armv6, arm64 ..)
-  policy-args:
-    description: Policy arguments
   predicate-type:
     description: Custom Predicate type (generic evidence format)
   product-key:
     description: Product Key
   product-version:
     description: Product Version
+  rule-args:
+    description: Policy arguments
   scribe-auth-audience:
     description: Scribe auth audience
   scribe-client-id:
@@ -145,14 +137,14 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Install valint
-      shell: bash
+    - shell: bash
+      name: Install valint
       run: |2-
         if [ ! -e "$HOME/.scribe/bin/valint" ]; then
-        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint:1.0.0
+        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint:v1.1.0
         fi
-    - name: Run valint command
-      shell: bash
+    - shell: bash
+      name: Run valint command
       id: run_valint
       run: |-
         $HOME/.scribe/bin/valint \
@@ -164,7 +156,6 @@ runs:
         ${{ inputs.author-name && '--author-name=' }}${{ inputs.author-name }} \
         ${{ inputs.author-phone && '--author-phone=' }}${{ inputs.author-phone }} \
         ${{ inputs.components && '--components=' }}${{ inputs.components }} \
-        ${{ inputs.compress && '--compress=' }}${{ inputs.compress }} \
         ${{ inputs.force && '--force=' }}${{ inputs.force }} \
         ${{ inputs.format && '--format=' }}${{ inputs.format }} \
         ${{ inputs.package-exclude-type && '--package-exclude-type=' }}${{ inputs.package-exclude-type }} \
@@ -206,10 +197,10 @@ runs:
         ${{ inputs.output-file && '--output-file=' }}${{ inputs.output-file }} \
         ${{ inputs.pipeline-name && '--pipeline-name=' }}${{ inputs.pipeline-name }} \
         ${{ inputs.platform && '--platform=' }}${{ inputs.platform }} \
-        ${{ inputs.policy-args && '--policy-args=' }}${{ inputs.policy-args }} \
         ${{ inputs.predicate-type && '--predicate-type=' }}${{ inputs.predicate-type }} \
         ${{ inputs.product-key && '--product-key=' }}${{ inputs.product-key }} \
         ${{ inputs.product-version && '--product-version=' }}${{ inputs.product-version }} \
+        ${{ inputs.rule-args && '--rule-args=' }}${{ inputs.rule-args }} \
         ${{ inputs.scribe-auth-audience && '--scribe.auth.audience=' }}${{ inputs.scribe-auth-audience }} \
         ${{ inputs.scribe-client-id && '--scribe.client-id=' }}${{ inputs.scribe-client-id }} \
         ${{ inputs.scribe-client-secret && '--scribe.client-secret=' }}${{ inputs.scribe-client-secret }} \
@@ -219,9 +210,6 @@ runs:
         ${{ inputs.structured && '--structured=' }}${{ inputs.structured }} \
         ${{ inputs.timeout && '--timeout=' }}${{ inputs.timeout }} \
         ${{ inputs.verbose && '--verbose=' }}${{ inputs.verbose }}
-
-    - run: echo Hello111 ${{steps.run_valint.outputs.OUTPUT_PATH}}
-      shell: bash
 branding:
   icon: shield
   color: green

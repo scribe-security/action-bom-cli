@@ -32,11 +32,11 @@ inputs:
   format:
     description: Evidence format, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json attest-slsa statement-slsa statement-generic attest-generic]
   package-exclude-type:
-    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel]
+    description: Exclude package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel]
   package-group:
-    description: Select package group, options=all
+    description: Select package group, options=[index install all]
   package-type:
-    description: Select package type, options=[ruby python javascript java dpkg apk rpm go-module dotnet r-package rust binary sbom nix conan alpm graalvm cocoapods swift dart elixir php erlang github portage haskell kernel]
+    description: Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel]
   supplier-email:
     description: Set supplier email
   supplier-name:
@@ -79,6 +79,10 @@ inputs:
     description: Filter out files by regex
   filter-scope:
     description: Filter packages by scope
+  gate:
+    description: Policy Gate name
+  git-auth:
+    description: 'Git repository authentication info, [format: ''username:password'']'
   git-branch:
     description: Git branch in the repository
   git-commit:
@@ -141,7 +145,7 @@ runs:
       name: Install valint
       run: |2-
         if [ ! -e "$HOME/.scribe/bin/valint" ]; then
-        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint:
+        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint:v1.3.0
         fi
     - shell: bash
       name: Run valint command
@@ -183,6 +187,8 @@ runs:
         ${{ inputs.env && '--env=' }}${{ inputs.env }} \
         ${{ inputs.filter-regex && '--filter-regex=' }}${{ inputs.filter-regex }} \
         ${{ inputs.filter-scope && '--filter-scope=' }}${{ inputs.filter-scope }} \
+        ${{ inputs.gate && '--gate=' }}${{ inputs.gate }} \
+        ${{ inputs.git-auth && '--git-auth=' }}${{ inputs.git-auth }} \
         ${{ inputs.git-branch && '--git-branch=' }}${{ inputs.git-branch }} \
         ${{ inputs.git-commit && '--git-commit=' }}${{ inputs.git-commit }} \
         ${{ inputs.git-tag && '--git-tag=' }}${{ inputs.git-tag }} \

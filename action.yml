@@ -123,9 +123,9 @@ inputs:
   scribe-auth-audience:
     description: Scribe auth audience (deprecated)
   scribe-client-id:
-    description: Scribe Client ID
+    description: Scribe Client ID (deprecated)
   scribe-client-secret:
-    description: Scribe Client Secret
+    description: Scribe Client Token
   scribe-enable:
     description: Enable scribe client
   scribe-login-url:
@@ -145,7 +145,7 @@ runs:
       name: Install valint
       run: |2-
         if [ ! -e "$HOME/.scribe/bin/valint" ]; then
-        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint:v1.4.1
+        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint:v1.4.2
         fi
     - shell: bash
       name: Run valint command

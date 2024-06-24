@@ -144,7 +144,8 @@ runs:
     - shell: bash
       name: Install valint
       run: |2-
-        if [ ! -e "$HOME/.scribe/bin/valint" ]; then
+        
+        if [ ! -e "$HOME/.scribe/bin/valint" ] || [ -z "$LAZY_INSTALL" ]; then
         	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint -D
         fi
     - shell: bash

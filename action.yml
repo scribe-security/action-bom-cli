@@ -139,6 +139,7 @@ runs:
       run: |-
         $HOME/.scribe/bin/valint \
         bom \
+        ${{ inputs.target }} \
         ${{ inputs.attach-regex && '--attach-regex=' }}${{ inputs.attach-regex }} \
         ${{ inputs.attest-config && '--attest.config=' }}${{ inputs.attest-config }} \
         ${{ inputs.attest-default && '--attest.default=' }}${{ inputs.attest-default }} \

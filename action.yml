@@ -135,7 +135,7 @@ runs:
       name: Install valint
       run: |2-
         if [ ! -e "$HOME/.scribe/bin/valint" ] || [ -z "$LAZY_INSTALL" ]; then
-        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint -D
+        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint:v1.5.4
         fi
     - shell: bash
       name: Run valint command

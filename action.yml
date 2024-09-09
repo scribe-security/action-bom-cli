@@ -65,6 +65,8 @@ inputs:
     description: Select package group, options=[index install all]
   package-type:
     description: Select package type, options=[ruby python javascript java dpkg apk rpm go dotnet r rust binary sbom nix conan alpm cocoapods swift dart elixir php erlang github portage haskell kernel wordpress lua]
+  pass:
+    description: Private key password
   payload:
     description: path of the decoded payload
   platform:
@@ -135,7 +137,7 @@ runs:
       name: Install valint
       run: |2-
         if [ ! -e "$HOME/.scribe/bin/valint" ] || [ -z "$LAZY_INSTALL" ]; then
-        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint:v1.5.6
+        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint:v1.5.7
         fi
     - shell: bash
       name: Run valint command
@@ -172,6 +174,7 @@ runs:
         ${{ inputs.package-exclude-type && '--package-exclude-type=' }}${{ inputs.package-exclude-type }} \
         ${{ inputs.package-group && '--package-group=' }}${{ inputs.package-group }} \
         ${{ inputs.package-type && '--package-type=' }}${{ inputs.package-type }} \
+        ${{ inputs.pass && '--pass=' }}${{ inputs.pass }} \
         ${{ inputs.payload && '--payload=' }}${{ inputs.payload }} \
         ${{ inputs.platform && '--platform=' }}${{ inputs.platform }} \
         ${{ inputs.provenance && '--provenance=' }}${{ inputs.provenance }} \

@@ -3,6 +3,8 @@
 set -ex
 
 version=$1
+git checkout dev
+git pull origin dev
 git branch -D  prep_release/$version || true
 git checkout -b prep_release/$version || git checkout prep_release/$version || true
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"

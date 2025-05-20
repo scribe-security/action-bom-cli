@@ -95,8 +95,10 @@ inputs:
     description: Mark as deliverable, options=[true, false]
   env:
     description: Environment keys to include in evidence
-  gate:
+  gate-name:
     description: Policy Gate name
+  gate-type:
+    description: Policy Gate type
   input:
     description: Input Evidence target, format (<parser>:<file> or <scheme>:<name>:<tag>)
   label:
@@ -143,7 +145,7 @@ runs:
       name: Install valint
       run: |2-
         if [ ! -e "$HOME/.scribe/bin/valint" ] || [ -z "$LAZY_INSTALL" ]; then
-        	curl -sSfL https://get.scribesecurity.com/install.sh  | sh -s -- -t valint -D
+        	curl -sSfL https://get.scribesecurity.com/install.sh | sh -s -- -F -t valint:sh-5802_initiatives_config
         fi
     - shell: bash
       name: Run valint command
@@ -196,7 +198,8 @@ runs:
         --context-type=github \
         ${{ inputs.deliverable && '--deliverable=' }}${{ inputs.deliverable }} \
         ${{ inputs.env && '--env=' }}${{ inputs.env }} \
-        ${{ inputs.gate && '--gate=' }}${{ inputs.gate }} \
+        ${{ inputs.gate-name && '--gate-name=' }}${{ inputs.gate-name }} \
+        ${{ inputs.gate-type && '--gate-type=' }}${{ inputs.gate-type }} \
         ${{ inputs.input && '--input=' }}${{ inputs.input }} \
         ${{ inputs.label && '--label=' }}${{ inputs.label }} \
         ${{ inputs.level && '--level=' }}${{ inputs.level }} \
